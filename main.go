@@ -26,7 +26,7 @@ func newHandler(c echo.Context) error {
 	return c.HTML(http.StatusOK, wr.String())
 }
 
-// на удивеление рабочий вариант на простых элементах, без использования пакета bytes
+// на удивление рабочий вариант на простых элементах, без использования пакета bytes
 func testHandler(c echo.Context) error {
 	f, err := os.Open("new.html")
 	if err != nil {
