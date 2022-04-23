@@ -9,22 +9,6 @@ import (
 	"os"
 )
 
-//func myHandler(writer http.ResponseWriter, request *http.Request) {
-//	//placeholder := []byte("something here")
-//	//_, err := writer.Write(placeholder)
-//	//if err != nil {
-//	//	log.Fatal(err)
-//	//}
-//	html, err := template.ParseFiles("view.html")
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//	err = html.Execute(writer, nil)
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//}
-
 // мой вариант хендлера на основе echo, а не пакета http
 // предложенный в учебнике вариант через пакет template не работает должным образом
 // содержимое файла в формате html переносим в байтовый срез, который используем как аргумент для метода HTML
