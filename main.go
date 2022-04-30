@@ -26,6 +26,11 @@ func check(e error) {
 	}
 }
 
+type Signatures struct {
+	SignaturesCount int
+	Signatures      []string
+}
+
 // мой вариант хендлера на основе echo, а не пакета http
 // предложенный в учебнике вариант через пакет template не работает должным образом
 // содержимое файла в формате html переносим в байтовый срез, который используем как аргумент для метода HTML
@@ -78,9 +83,10 @@ func getString(fileName string) []string {
 }
 
 func templateHandler(c echo.Context) error {
+	mySlice := getString("signatures")
 	return c.Render(http.StatusOK, "view.html", map[string]interface{}{
-		"name":  "DARKFANTASY",
-		"price": "300 bucks",
+		"SignaturesCount": len(mySlice),
+		"price":           "300 bucks",
 	})
 }
 

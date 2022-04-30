@@ -2,12 +2,13 @@
 <body>
 <h1>$$$WELCOME HOME$$$</h1>
 <div>
-    Hello {{index .name}}. Are you ready for  pleasure??? -
+    Hello. Are you ready for  pleasure??? -
+    Now we have {{index .SignaturesCont}} signatures in our book of wish
     <a href="/guestbook/list">Gays List</a>
 </div>
 <div>
     <p>FISTING</p>
-    <p>{{index .price}}</p>
+    <p>{{range .Signatures}}</p>
     <p>BUCKS</p>
 </div>
 </p>
