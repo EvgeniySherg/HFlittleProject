@@ -3,12 +3,15 @@
 <h1>$$$WELCOME HOME$$$</h1>
 <div>
     Hello. Are you ready for  pleasure??? -
-    Now we have {{index .SignaturesCont}} signatures in our book of wish
+    Now we have {{ .SignaturesCount}} signatures in our book of wish
+    Look at past signatures
+    {{ range .Signature}}
+        <p> {{.}} </p>
+    {{end }}
     <a href="/guestbook/list">Gays List</a>
 </div>
 <div>
     <p>FISTING</p>
-    <p>{{range .Signatures}}</p>
     <p>BUCKS</p>
 </div>
 </p>

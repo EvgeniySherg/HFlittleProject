@@ -83,10 +83,10 @@ func getString(fileName string) []string {
 }
 
 func templateHandler(c echo.Context) error {
-	mySlice := getString("signatures")
+	mySlice := getString("signature.txt")
 	return c.Render(http.StatusOK, "view.html", map[string]interface{}{
 		"SignaturesCount": len(mySlice),
-		"price":           "300 bucks",
+		"Signature":       mySlice,
 	})
 }
 
