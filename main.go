@@ -2,7 +2,7 @@ package main
 
 import (
 	"bufio"
-	"bytes"
+	"fmt"
 	"github.com/labstack/echo"
 	"html/template"
 	"io"
@@ -35,19 +35,20 @@ type Signatures struct {
 // предложенный в учебнике вариант через пакет template не работает должным образом
 // содержимое файла в формате html переносим в байтовый срез, который используем как аргумент для метода HTML
 
-func newHandler(c echo.Context) error {
-	f, err := os.Open("new.html")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer f.Close()
-	wr := bytes.Buffer{} //
-	sc := bufio.NewScanner(f)
-	for sc.Scan() {
-		wr.WriteString(sc.Text())
-	}
-	return c.HTML(http.StatusOK, wr.String())
-}
+// хорошая функция для работы с обычным html без шаблонов
+//func newHandler(c echo.Context) error {
+//	f, err := os.Open("new.html")
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	defer f.Close()
+//	wr := bytes.Buffer{} //
+//	sc := bufio.NewScanner(f)
+//	for sc.Scan() {
+//		wr.WriteString(sc.Text())
+//	}
+//	return c.HTML(http.StatusOK, wr.String())
+//}
 
 /* на удивление рабочий вариант на простых элементах, без использования пакета bytes
 func testHandler(c echo.Context) error {
@@ -90,14 +91,32 @@ func templateHandler(c echo.Context) error {
 	})
 }
 
+func newHandler(c echo.Context) error {
+	return c.Render(http.StatusOK, "new.html", map[string]interface{}{})
+}
+
+func createHandler(c echo.Context) error {
+	request := c.Request().FormValue("signature")
+	option := os.O_WRONLY | os.O_APPEND | os.O_CREATE
+	file, err := os.OpenFile("signature.txt", option, os.FileMode(0600))
+	check(err)
+	//appendString := "\n" + request
+	_, err = fmt.Fprintln(file, request)
+	check(err)
+	err = file.Close()
+	check(err)
+	return c.Redirect(http.StatusFound, "/guestbook")
+}
+
 func main() {
 	e := echo.New()
 	e.Renderer = &TemplateRegistry{
 		templates: template.Must(template.ParseGlob("*.html")),
 	}
 	//e.GET("/guestbook/new", testHandler)
-	e.GET("/guestbook", newHandler)
-	e.GET("/", templateHandler)
+	e.GET("/guestbook/new", newHandler)
+	e.GET("/guestbook", templateHandler)
+	e.POST("/guestbook/create", createHandler)
 	e.Logger.Fatal(e.Start(":8080"))
 
 }
